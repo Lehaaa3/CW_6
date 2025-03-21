@@ -1,0 +1,92 @@
+{% extends "distribution/base.html" %}
+{% block content %}
+{% load my_tags %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-1">Журнал рассылок</h1>
+</div>
+
+<div class="container col-8 mt-2 mb-5">
+    <div class="card">
+        <div class="card-header text-center">
+            <h1>Статистика</h1>
+            {% if user.is_staff %}
+            <form method="get" action="{% url 'distribution:log_list' %}">
+                {% if show_my_logs == 'true' %}
+                <button class="btn btn-outline-primary" type="submit" name="show_my_logs" value="false">
+                    Показать все логи
+                </button>
+                {% else %}
+                <button class="btn btn-outline-primary" type="submit" name="show_my_logs" value="true">
+                    Показать мои логи
+                </button>
+                {% endif %}
+            </form>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <div class="row text-center ">
+                <div class="col-12">
+                    <table class="table">
+                        <tr>
+                            <th><h4>Количество отправленных писем</h4></th>
+                            <th><h4>Количество успешно отправленных писем</h4></th>
+                            <th><h4>Количество ошибок</h4></th>
+                        </tr>
+                        <body>
+                        <tr>
+                            <td><h4>{{ all }}</h4></td>
+                            <td><h4>{{ success }}</h4></td>
+                            <td><h4>{{ error }}</h4></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container col-10">
+    <div class="card">
+        <div class="card-header text-center">
+            <h1>Рассылки</h1>
+        </div>
+        <div class="card-body">
+            <div class="col-12">
+                <table class="table text-center">
+                    <tr>
+                        <th><h4>Время рассылки</h4></th>
+                        <th><h4>Данные рассылки</h4></th>
+                        <th><h4>Получатель рассылки</h4></th>
+                        <th><h4>Статус рассылки</h4></th>
+                    </tr>
+                    {% for object in object_list %}
+                    <tr>
+                        <td><h4>{% formatted_data object.time %}</h4></td>
+                        <td><h4>{{ object.mailing_list }}</h4></td>
+                        <td><h4>{{ object.recipient }}</h4></td>
+                        <td>
+                            <h4>
+                                {% if object.status %}
+                                <p class="text-success">Успешно</p>
+                                {% else %}
+                                <p>
+                                    <button class="btn btn-danger btn-lg" type="button" data-toggle="collapse"
+                                            data-target="#collapseExample" aria-expanded="false"
+                                            aria-controls="collapseExample">
+                                        Ошибка
+                                    </button>
+                                </p>
+                                <div class="collapse" id="collapseExample">
+                                    <div class="card card-body">
+                                        <p>{{ object.server_response }}</p>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </h4>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

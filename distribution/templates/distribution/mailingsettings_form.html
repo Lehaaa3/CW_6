@@ -1,0 +1,88 @@
+{% extends "distribution/base.html" %}
+{% load static %}
+{% block content %}
+<form method="post" class="row">
+    {% csrf_token %}
+    <div class="col-md-6">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h3>Настройки рассылки</h3>
+            </div>
+
+            <div class="card-body">
+                <script>
+                    function setCurrentDateTime(fieldId) {
+                        const now = new Date();
+                        const year = now.getFullYear();
+                        const month = String(now.getMonth() + 1).padStart(2, '0');
+                        const day = String(now.getDate()).padStart(2, '0');
+                        const hours = String(now.getHours()).padStart(2, '0');
+                        const minutes = String(now.getMinutes()).padStart(2, '0');
+                        const seconds = String(now.getSeconds()).padStart(2, '0');
+
+                        const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                        document.getElementById(fieldId).value = formattedDateTime;
+                    }
+                </script>
+
+                <div class="form-group">
+                    {{ form.start_time.label_tag }}
+                    <div class="input-group">
+                        {{ form.start_time }}
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-secondary"
+                                    onclick="setCurrentDateTime('id_start_time')">
+                                <img src="{% static 'css/calendar.jpg' %}" alt="Календарь"
+                                     style="width: 20px; height: 20px;">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form.end_time.label_tag }}
+                    <div class="input-group">
+                        {{ form.end_time }}
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-secondary"
+                                    onclick="setCurrentDateTime('id_end_time')">
+                                <img src="{% static 'css/calendar.jpg' %}" alt="Календарь"
+                                     style="width: 20px; height: 20px;">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form.periodicity.label_tag }}
+                    {{ form.periodicity }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.status.label_tag }}
+                    {{ form.status }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.clients.label_tag }}
+                    {{ form.clients }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.message.label_tag }}
+                    {{ form.message }}
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    {% if object %}
+                    Изменить
+                    {% else %}
+                    Создать
+                    {% endif %}
+                </button>
+                <a href="{% url 'distribution:distribution_list' %}" class="btn btn-warning">Отмена</a>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

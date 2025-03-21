@@ -1,0 +1,23 @@
+{% extends "distribution/base.html" %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Регистрация завершена! Для входа на сайт подтвердите email.</h1>
+    <p>Не пришло письмо? Введите почту, указанную при регистрации и отправьте ссылку-активатор повторно.</p>
+</div>
+
+<div class="col-12">
+    <form class="row" method="post">
+        <div class="col-4">
+        </div>
+        <div class="col-4">
+            <div class="card-body">
+                {% csrf_token %}
+                <label>Почта</label>
+                <input type="text" name="email" id="email" class="form-control" placeholder="Введите ваш email"
+                       required>
+                <button type="submit" class="btn btn-outline-primary mt-2">Отправить письмо повторно</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

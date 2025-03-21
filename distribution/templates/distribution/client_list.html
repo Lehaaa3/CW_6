@@ -1,0 +1,51 @@
+{% extends "distribution/base.html" %}
+{% block content %}
+{% load users_tags %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-1">Список клиентов</h1>
+</div>
+
+
+<div class="container col-10">
+    <div class="card">
+        <div class="card-header text-center">
+            <h1>Клиенты</h1>
+        </div>
+        <div class="card-body">
+            <div class="col-12">
+                <table class="table text-center">
+                    <tr>
+                        <th><h4>ФИО клиента</h4></th>
+                        <th><h4>email клиента</h4></th>
+                        <th><h4>Подробности о клиенте</h4></th>
+                        <th><h4>Исправить данные</h4></th>
+                        <th><h4>Удалить клиента</h4></th>
+                    </tr>
+                    {% for object in object_list %}
+                    <tr>
+                        <td><h4>{{ object.FIO }}</h4></td>
+                        <td><h4>{{ object.email }}</h4></td>
+                        <td><h4>
+                            <a href="{% url 'distribution:client_detail' object.pk %}"
+                               class="btn btn-lg btn-primary">Полная
+                                информация</a>
+                        </h4></td>
+                        {% if object.owner == user %}
+                        <td><h4><a class="btn btn-lg btn-warning"
+                                   href="{% url 'distribution:update_client' object.pk %}">Изменить</a></h4></td>
+                        <td><h4><a class="btn btn-lg btn-danger"
+                                   href="{% url 'distribution:delete_client' object.pk %}">Удалить</a></h4></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row text-right mt-4">
+        <div class="col-12">
+            <a class="p-2 btn btn-outline-primary btn-block btn-lg" href="{% url 'distribution:create_client' %}">Создать
+                нового клиента</a>
+        </div>
+    </div>
+    {% endblock %}

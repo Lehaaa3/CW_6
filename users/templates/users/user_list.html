@@ -1,0 +1,87 @@
+{% extends "distribution/base.html" %}
+{% block content %}
+{% load users_tags %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-1">Пользователи сервиса</h1>
+</div>
+
+<div class="container col-8 mt-2 mb-5">
+    <div class="card">
+        <div class="card-header text-center">
+            <h1>Статистика</h1>
+        </div>
+        <div class="card-body">
+            <div class="row text-center ">
+                <div class="col-12">
+                    <table class="table">
+                        <tr>
+                            <th><h4>Количество обычных пользователей</h4></th>
+                            <th><h4>Количество супер-пользователей</h4></th>
+                            <th><h4>Количество менеджеров</h4></th>
+                        </tr>
+                        <body>
+                        <tr>
+                            <td><h4>{{ usual_users }}</h4></td>
+                            <td><h4>{{ superusers }}</h4></td>
+                            <td><h4>{{ managers }}</h4></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container col-10">
+    <div class="card">
+        <div class="card-header text-center">
+            <h1>Пользователи</h1>
+        </div>
+        <div class="card-body">
+            <div class="col-12">
+                <table class="table text-center">
+                    <tr>
+                        <th><h4>Имя пользователя</h4></th>
+                        <th><h4>Почта</h4></th>
+                        <th><h4>Полная информация</h4></th>
+                        <th><h4>Страна</h4></th>
+                        <th><h4>Заблокировать пользователя</h4></th>
+                    </tr>
+                    {% for object in object_list %}
+                    <tr>
+                        <td><h4>{{ object.username }}</h4></td>
+                        <td><h4>{{ object.email }}</h4></td>
+                        <td><h4><a href="{% url 'users:user_detail' object.pk %}"
+                                   class="btn btn-lg btn-primary">Полная
+                            информация</a></h4></td>
+                        <td><h4>{% get_full_country_name object.country %}</h4></td>
+                        <td>
+                            <h4>
+                                {% if object.is_superuser %}
+                                SUPERUSER
+                                {% elif object.pk|check_is_manager %}
+                                MANAGER
+                                {% else %}
+                                <form method="post" action="{% url 'users:user_list' %}">
+                                    {% csrf_token %}
+                                    {% if not object.is_blocked %}
+                                    <button name="block_user" type="submit" class="btn btn-lg btn-danger"
+                                            value="{{ object.pk }}">
+                                        Заблокировать пользователя
+                                    </button>
+                                    {% else %}
+                                    <button name="unblock_user" type="submit" class="btn btn-lg btn-success"
+                                            value="{{ object.pk }}">
+                                        Разблокировать пользователя
+                                    </button>
+                                    {% endif %}
+                                </form>
+                                {% endif %}
+                            </h4>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

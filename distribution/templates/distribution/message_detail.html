@@ -1,0 +1,28 @@
+{% extends "distribution/base.html" %}
+{% block content %}
+{% load my_tags %}
+<div class="col-12">
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-1">Детали сообщения</h1>
+    </div>
+</div>
+
+
+<div class="col-12 text-center">
+    <table class="table table-striped">
+        <tr>
+            <th>Тема письма</th>
+            <th>Тело письма</th>
+            <th>Создатель</th>
+        </tr>
+        <tr>
+            <td><h4>{{ object.title}}</h4></td>
+            <td><h4>{{ object.text }}</h4></td>
+            <td><h4>{{ object.owner.username }}</h4></td>
+        </tr>
+    </table>
+    <div align="center"><a class="btn btn-outline-primary btn-lg" href="{% url 'distribution:message_list' %}">Вернуться
+    на страницу просмотра сообщений</a></div>
+
+
+    {% endblock %}
