@@ -252,7 +252,7 @@ class MailingSettingsListView(LoginRequiredMixin, ListView):
 
         if self.request.user.has_perm('distribution.can_see_all_mailing_settings'):
             if not all_mailings or not active or not title or not clients_count or not mailing_list:
-                all_mailings = context_data['all_mailings'] = context_data['object_list'].count()
+                all_mailings = context_data['all'] = context_data['object_list'].count()
                 active = context_data['active'] = context_data['object_list'].filter(
                     status=MailingSettings.STARTED).count()
                 context_data['mailing_active'] = self.request.session.get('mailing_active', False)
@@ -279,7 +279,7 @@ class MailingSettingsListView(LoginRequiredMixin, ListView):
                 context_data['clients_count'] = clients_count
         else:
             if not all_mailings or not active or not title or not clients_count or not mailing_list:
-                all_mailings = context_data['all_mailings'] = context_data['object_list'].filter(
+                all_mailings = context_data['all'] = context_data['object_list'].filter(
                     owner=self.request.user).count()
                 active = context_data['active'] = context_data['object_list'].filter(status=MailingSettings.STARTED,
                                                                                      owner=self.request.user).count()
@@ -298,7 +298,7 @@ class MailingSettingsListView(LoginRequiredMixin, ListView):
                 cache.set('mailing_list', mailing_list, 60 * 2)
 
             else:
-                context_data['all_mailings'] = all_mailings
+                context_data['all'] = all_mailings
                 context_data['active'] = active
                 context_data['mailing_active'] = self.request.session.get('mailing_active', False)
                 context_data['title'] = title
