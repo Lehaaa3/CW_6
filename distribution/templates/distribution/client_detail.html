@@ -1,0 +1,30 @@
+{% extends "distribution/base.html" %}
+{% block content %}
+{% load my_tags %}
+<div class="col-12">
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-1">Данные клиента: {{ object.FIO }}</h1>
+    </div>
+</div>
+
+
+<div class="col-12 text-center">
+    <table class="table table-striped">
+        <tr>
+            <th>ФИО</th>
+            <th>Почта</th>
+            <th>Комментарий</th>
+            <th>Создатель</th>
+        </tr>
+        <tr>
+            <td><h4>{{ object.FIO }}</h4></td>
+            <td><h4>{{ object.email }}</h4></td>
+            <td><h4>{{ object.comment }}</h4></td>
+            <td><h4>{{ object.owner.username }}</h4></td>
+        </tr>
+    </table>
+    <div align="center"><a class="btn btn-outline-primary btn-lg" href="{% url 'distribution:client_list' %}">Вернуться
+    на страницу просмотра клиентов</a></div>
+
+
+    {% endblock %}

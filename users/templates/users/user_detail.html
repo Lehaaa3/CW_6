@@ -1,0 +1,49 @@
+{% extends "distribution/base.html" %}
+{% block content %}
+{% load users_tags %}
+<div class="col-12">
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-1">Пользователь: {{ object.username }}</h1>
+        <p class="lead">Подробное описание пользователя</p>
+    </div>
+</div>
+
+
+<div class="col-12 text-center">
+    <table class="table table-striped">
+        <tr>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Страна</th>
+            <th>Почта</th>
+            <th>Статус блокировки</th>
+        </tr>
+        <tr>
+            {% if object.first_name %}
+            <td><h4>{{ object.first_name }}</h4></td>
+            {% else %}
+            <td><h4>Не указано</h4></td>
+            {% endif %}
+            {% if object.last_name %}
+            <td><h4>{{ object.last_name }}</h4></td>
+            {% else %}
+            <td><h4>Не указано</h4></td>
+            {% endif %}
+            {% if object.country %}
+            <td><h4>{% get_full_country_name object.country %}</h4></td>
+            {% else %}
+            <td><h4>Не указано</h4></td>
+            {% endif %}
+            <td><h4>{{ object.email }}</h4></td>
+            {% if object.is_blocked %}
+            <td><h4 class="text-danger">Заблокирован</h4></td>
+            {% else %}
+            <td><h4 class="text-success">Не заблокирован</h4></td>
+            {% endif %}
+        </tr>
+    </table>
+    <div align="center"><a class="btn btn-outline-primary btn-lg" href="{% url 'users:user_list' %}">Вернуться
+        на страницу списка пользователей</a></div>
+
+
+    {% endblock %}

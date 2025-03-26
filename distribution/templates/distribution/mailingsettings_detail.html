@@ -1,0 +1,35 @@
+{% extends "distribution/base.html" %}
+{% block content %}
+{% load my_tags %}
+<div class="col-12">
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-1">Рассылка номер {{ object.pk }}</h1>
+        <p class="lead">Подробное описание рассылки</p>
+    </div>
+</div>
+
+
+<div class="col-12 text-center">
+    <table class="table table-striped">
+        <tr>
+            <th>Начало рассылки</th>
+            <th>Конец рассылки</th>
+            <th>Сообщение</th>
+            <th>Переодичность рассылки</th>
+            <th>Статус рассылки</th>
+            <th>Участники рассылки</th>
+        </tr>
+        <tr>
+            <td><h4>{{ object.start_time }}</h4></td>
+            <td><h4>{{ object.end_time }}</h4></td>
+            <td><h4>{{ object.message|truncatechars:50 }}</h4></td>
+            <td><h4>{{ object.periodicity }}</h4></td>
+            <td><h4>{{ object.status }}</h4></td>
+            <td><h4>{{ object.clients.all|get_str_emails|safe }}</h4></td>
+        </tr>
+    </table>
+    <div align="center"><a class="btn btn-outline-primary btn-lg" href="{% url 'distribution:distribution_list' %}">Вернуться
+    на главную страницу</a></div>
+
+
+    {% endblock %}

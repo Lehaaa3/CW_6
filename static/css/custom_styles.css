@@ -1,0 +1,5 @@
+.fixed-width-button {
+    width: 125px;
+    height: 40px;
+    display: inline-block;
+}
